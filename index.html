@@ -28,6 +28,10 @@
             transform: translateY(-8px);
             box-shadow: 0 10px 20px rgba(0, 255, 135, 0.1);
         }
+        .countdown-box {
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+        }
     </style>
 </head>
 <body>
@@ -43,6 +47,32 @@
 
     <!-- Main Content -->
     <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Countdown Section -->
+        <section id="countdown-section" class="card p-6 rounded-xl shadow-lg mb-8 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Yarış Başlangıcına Kalan Süre</h2>
+            <div id="countdown-timer" class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto text-white">
+                <div class="countdown-box p-4 rounded-lg">
+                    <span id="days" class="text-4xl md:text-5xl font-bold">00</span>
+                    <p class="text-sm uppercase text-gray-400">Gün</p>
+                </div>
+                <div class="countdown-box p-4 rounded-lg">
+                    <span id="hours" class="text-4xl md:text-5xl font-bold">00</span>
+                    <p class="text-sm uppercase text-gray-400">Saat</p>
+                </div>
+                <div class="countdown-box p-4 rounded-lg">
+                    <span id="minutes" class="text-4xl md:text-5xl font-bold">00</span>
+                    <p class="text-sm uppercase text-gray-400">Dakika</p>
+                </div>
+                <div class="countdown-box p-4 rounded-lg">
+                    <span id="seconds" class="text-4xl md:text-5xl font-bold">00</span>
+                    <p class="text-sm uppercase text-gray-400">Saniye</p>
+                </div>
+            </div>
+             <div id="race-started" class="hidden text-3xl font-bold text-green-400 mt-4">
+                Yarış Başladı! Bol Şans!
+            </div>
+        </section>
 
         <!-- About Section -->
         <section class="card p-6 rounded-xl shadow-lg mb-8">
@@ -133,6 +163,52 @@
     <footer class="text-center py-6 mt-8 bg-black bg-opacity-50 text-gray-500">
         <p>&copy; 2025 Ağustos - Kişisel Proje</p>
     </footer>
+
+    <script>
+        // Set the date we're counting down to
+        // The footer mentions 2025, so we'll use that year.
+        const countDownDate = new Date("Sep 27, 2025 04:00:00").getTime();
+
+        // Get elements to update
+        const daysEl = document.getElementById("days");
+        const hoursEl = document.getElementById("hours");
+        const minutesEl = document.getElementById("minutes");
+        const secondsEl = document.getElementById("seconds");
+        const countdownTimerEl = document.getElementById("countdown-timer");
+        const raceStartedEl = document.getElementById("race-started");
+
+
+        // Update the count down every 1 second
+        const x = setInterval(function() {
+
+            // Get today's date and time
+            const now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            const distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the corresponding elements
+            // Add a leading zero if the number is less than 10
+            daysEl.innerHTML = days < 10 ? '0' + days : days;
+            hoursEl.innerHTML = hours < 10 ? '0' + hours : hours;
+            minutesEl.innerHTML = minutes < 10 ? '0' + minutes : minutes;
+            secondsEl.innerHTML = seconds < 10 ? '0' + seconds : seconds;
+
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                countdownTimerEl.classList.add("hidden");
+                raceStartedEl.classList.remove("hidden");
+            }
+        }, 1000);
+    </script>
 
 </body>
 </html>
